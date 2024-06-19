@@ -6,6 +6,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <title>Login Page</title>
+
+    <style>
+        .error{color:red}
+    </style>
 </head>
 <body>
 
@@ -17,11 +21,19 @@
     <div class="mb-3">
         <label for="user_name_label" class="form-label">UserName</label>
         <input type="text" th:field="*{userName}" class="form-control" id="user_name_label" aria-describedby="emailHelp">
+
+        <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"
+              class="error"></span>
+
         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
     </div>
     <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Password</label>
         <input type="password"  th:field="*{passWord}" class="form-control" id="exampleInputPassword1" name="pass_word">
+
+        <span th:if="${#fields.hasErrors('passWord')}" th:errors="*{passWord}"
+              class="error"></span>
+
     </div>
 <!--    <div class="mb-3 form-check">-->
 <!--        <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
@@ -30,5 +42,7 @@
     <button type="submit" class="btn btn-primary">Sign-In</button>
     <button type="submit" class="btn btn-primary">Sign-Up</button>
 </form>
+
+
 </body>
 </html>
