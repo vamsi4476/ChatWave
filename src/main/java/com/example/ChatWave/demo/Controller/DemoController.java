@@ -2,6 +2,7 @@ package com.example.ChatWave.demo.Controller;
 
 
 import com.example.ChatWave.demo.Entities.User;
+import com.example.ChatWave.demo.Entities.chat_friends;
 import com.example.ChatWave.demo.UserService.UserServiceImpl;
 import com.example.ChatWave.demo.UserService.UserServiceInterface;
 import jakarta.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,6 +29,8 @@ import java.util.List;
     }
 
     private UserServiceImpl userService;
+
+    List<User> users_list=new ArrayList<>(); // This is used for storing friends instances to display them on home page;
 
     @Autowired
     public DemoController(UserServiceImpl userService){
@@ -47,7 +51,7 @@ import java.util.List;
         }
 
         @GetMapping("/HomePagelink")
-        public String HomePagelink(@Valid @ModelAttribute("theUser") User theUser, BindingResult theBindingResult){
+        public String HomePagelink(@Valid @ModelAttribute("theUser") User theUser, BindingResult theBindingResult,Model theModel){
 
             System.out.println(theBindingResult);
 
@@ -57,7 +61,7 @@ import java.util.List;
 
         List<User> loginUser=userService.findUser(theUser); // List is a list of User Objects from Database
 
-            System.out.println("the logins are"+loginUser);
+            System.out.println("the logged in ID is "+loginUser.get(0).getId());
 
             if(loginUser.isEmpty()){
 
@@ -65,11 +69,40 @@ import java.util.List;
 
             }
             else{
+
+                // findAll(id) return the list of rows that id has friends in chat_friends.
+                // This findAll finds the friends id's of the given id.
+                List<chat_friends> chat_friendsList=userService.findAll(loginUser.get(0).getId()) ;
+
+                for(int i=0;i<chat_friendsList.size();i++){
+
+                    User ob=userService.findById(chat_friendsList.get(i).getFriend2_id());
+
+                    //System.out.println("The Friends ID's are "+chat_friendsList.get(i).getFriend2_id());
+
+                   // System.out.println(ob);
+
+                    users_list.add(ob);
+
+                }
+
+                System.out.println(users_list);
+
+                theModel.addAttribute("users_list",users_list);
+
+
                 return "HomePage";
             }
 
 
+
         }
+
+    @GetMapping("/ChatPage")
+    public String ChatPage(){
+
+    }
+
 //        @PostMapping("/saveuser")
 //        public void saveuser(@RequestBody User user){
 //            //user.setId(1);

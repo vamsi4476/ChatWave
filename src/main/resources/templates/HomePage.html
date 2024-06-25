@@ -13,5 +13,25 @@
 <p th:text="'The name is '+${theUser.userName}"></p>
 <p th:text="'The password is '+${theUser.passWord}"></p>
 
+
+<!--th:each is used to create a loop in thymeleaf-->
+
+
+<div th:each="friend_list:${users_list}">
+
+    <form th:action="@{/ChatPage}" method="GET">
+
+    <button th:text="${friend_list.userName}" type="submit"/>
+
+    </form>
+
+
+</div>
+
+
+<nav class="navbar bg-primary" data-bs-theme="dark">
+    <!-- Navbar content -->
+</nav>
+
 </body>
 </html>

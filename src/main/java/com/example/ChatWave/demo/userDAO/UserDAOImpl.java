@@ -2,6 +2,7 @@ package com.example.ChatWave.demo.userDAO;
 
 
 import com.example.ChatWave.demo.Entities.User;
+import com.example.ChatWave.demo.Entities.chat_friends;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,35 @@ public class UserDAOImpl implements UserDAOInterface{
 
     public List<User> findUser(User user){
 
-        TypedQuery<User> theQuery=entityManager.createQuery("From User where userName=:theuserName and " +
-                "passWord=:thepassWord",User.class);
+        int a=1;
+
+        TypedQuery<User> theQuery=entityManager.createQuery("From User where userName=:theuserName and passWord=:thepassWord",User.class);
+
+               // theQuery.setParameter("a",1);
 
         theQuery.setParameter("theuserName",user.getUserName());
         theQuery.setParameter("thepassWord",user.getPassWord());
 
         return theQuery.getResultList();
+    }
+
+    @Override
+    public List<chat_friends> findAll(int id) {
+
+        TypedQuery<chat_friends> theQuery=entityManager.createQuery("from chat_friends where friend1_id=:id",chat_friends.class);
+
+        theQuery.setParameter("id",id);
+
+        return theQuery.getResultList();
+    }
+
+    @Override
+    public User findById(int n) {
+
+        TypedQuery<User> theQuery=entityManager.createQuery("from User where id=:n",User.class);
+
+        theQuery.setParameter("n",n);
+
+        return theQuery.getResultList().get(0);
     }
 }

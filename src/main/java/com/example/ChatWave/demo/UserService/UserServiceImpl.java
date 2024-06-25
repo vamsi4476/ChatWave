@@ -2,6 +2,7 @@ package com.example.ChatWave.demo.UserService;
 
 
 import com.example.ChatWave.demo.Entities.User;
+import com.example.ChatWave.demo.Entities.chat_friends;
 import com.example.ChatWave.demo.userDAO.UserDAOImpl;
 import com.example.ChatWave.demo.userDAO.UserDAOInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,16 @@ public class UserServiceImpl implements UserServiceInterface {
 
     @Override
     public List<User> findUser(User user){
-       return userDAO.findUser(user);
+
+        return userDAO.findUser(user);
+    }
+
+    @Override
+    public List<chat_friends> findAll(int id) {
+        return userDAO.findAll(id);
+    }
+
+    public User findById(int n){
+        return userDAO.findById(n);
     }
 }
